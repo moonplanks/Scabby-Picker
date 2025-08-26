@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scab Picker — PWA</title>
+  <meta name="theme-color" content="#7c2d12" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    :root {
+      --bg:#0b0a0a; --panel:#161313; --accent:#7c2d12; --muted:#cbd5e1; --text:#f8fafc; --sub:#94a3b8;
+      --ring:#a16207; --ok:#16a34a; --bad:#dc2626;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{position:sticky;top:0;background:linear-gradient(0deg, rgba(0,0,0,0), rgba(124,45,18,.35)), var(--panel);padding:14px 16px;border-bottom:1px solid #2a231f;z-index:10}
+    h1{font-size:18px;margin:0}
+    main{padding:16px;display:flex;gap:16px;flex-direction:column;max-width:960px;margin:0 auto}
+    .card{background:var(--panel);border:1px solid #2a231f;border-radius:14px;padding:16px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    button,input[type=file]{padding:10px 12px;border-radius:10px;border:1px solid #3b2f28;background:#0f0d0c;color:var(--text);font-size:14px;cursor:pointer}
+    button.install{border-color:var(--accent)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#1b1410;border:1px solid #31241d;color:#f59e0b;font-size:12px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .tile{aspect-ratio:1/1;background:#0f0d0c;border:1px solid #31241d;border-radius:10px;overflow:hidden;position:relative}
+    .tile img{width:100%;height:100%;object-fit:cover}
+    .tile button{position:absolute;inset:0;border:0;background:transparent}
+    .target{display:flex;gap:12px;align-items:center}
+    .target img{width:64px;height:64px;border-radius:8px;border:1px solid #31241d;object-fit:cover}
+    .stats{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+    .muted{color:var(--sub)}
+    .score{font-weight:700}
+    .good{color:var(--ok)} .bad{color:var(--bad)}
+    footer{padding:16px;text-align:center;color:var(--muted);border-top:1px solid #2a231f}
+  </style>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🩹 Scab Picker — PWA</h1>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div class="row">
+          <span class="pill">Installable</span>
+          <span class="pill">Offline</span>
+          <span class="pill">Local only</span>
+        </div>
+        <button class="install" id="installBtn" hidden>Install App</button>
+      </div>
+      <p class="muted">Add your own images of scabs (or any images) below. Your images stay local to your device. No uploads.</p>
+      <div class="row">
+        <input type="file" id="fileInput" accept="image/*" multiple />
+        <button id="addSamplesBtn">Load Sample Images</button>
+        <button id="clearBtn">Clear Library</button>
+      </div>
+    </div>
+
+    <div class="card target">
+      <img id="targetImg" alt="Target">
+      <div>
+        <div>Find this image in the grid:</div>
+        <div class="stats">
+          <div>⏱️ Time: <span id="timeLeft">60</span>s</div>
+          <div>⭐ Score: <span class="score" id="score">0</span></div>
+          <div>🏆 Best: <span id="best">0</span></div>
+        </div>
+        <div class="muted" id="hint"></div>
+      </div>
+      <div style="margin-left:auto">
+        <button id="startBtn">Start 60s Run</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+
+  <footer>Built for fun • No data leaves your device • v1.0</footer>
+</body>
+</html>
